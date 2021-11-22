@@ -1,10 +1,11 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-    </div>
-    <router-view/>
-  </div>
+   <div id="app">
+      <div id="nav">
+         <router-link to="/" style="margin-right: 15px;">Home</router-link>    
+         <router-link to="/unitconversion">Задание 1</router-link>
+      </div>
+      <router-view class="router"/>
+   </div>
 </template>
 
 <style lang="scss">
@@ -26,6 +27,7 @@
     &.router-link-exact-active {
       color: #42b983;
     }
+
   }
 }
 </style>

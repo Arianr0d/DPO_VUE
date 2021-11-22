@@ -1,34 +1,46 @@
 <template>
-   <form action="#">
+   <form action="#" id="form_id">
       <summaryforminput :namePlace="'ФИО'" :namePlaceHolder="full_name"/>
-      
       <div class="group">
          <div class="left">Дата рождения</div>
          <div class="right">
-            
+            <div class="form-row">
+               <b-input placeholder="День"/>
+               <b-input placeholder="Месяц"/>
+               <b-input style="margin-right: 0" placeholder="Год"/>
+            </div>
          </div>
       </div>
-
       <summaryforminput :namePlace="'Город'" :namePlaceHolder="city_name"/>
       <summaryforminput :namePlace="'Email'" :namePlaceHolder="email_name"/>
       <summaryforminput :namePlace="'Номер телефона'" :namePlaceHolder="number_name"/>
       <div class="group">
          <div class="left">Образование</div>
          <div class="right">
-            <summaryselectbox :selected="form_education" style="width: 450px;"/>
+            <summaryselectbox style="width: 450px" v-on:add_place="formChange($event)" :selected="form_education" :nameselected="'Образование'"/>
          </div>
       </div>
+
+      <div v-if="add_form">
+         <br><br>
+         <summaryforminput :namePlace="'Учебное заведение'" :namePlaceHolder="educational_ins_name"/>
+         <summaryforminput :namePlace="'Факультет'" :namePlaceHolder="faculty_name"/>
+         <summaryforminput :namePlace="'Специализация'" :namePlaceHolder="specializ_name"/>
+         <summaryforminput :namePlace="'Год окончания'" :namePlaceHolder="year_ending_name"/>
+         <br><br>
+      </div>
+
       <summaryforminput :namePlace="'Профессиональная область'" :namePlaceHolder="profession_name"/>
       <summaryforminput :namePlace="'Ключевые навыки'" :namePlaceHolder="key_skill_name"/>
       <div class="group">
          <div class="left">Желаемая зарплата</div>
          <div class="right">
-            <div class="form-salary">
+            <div class="form-row">
                <label>от</label>
-               <b-input style="width: 100px;"/>
+               <b-input style="width: 100px; margin-right: 15px"/>
                <label>до</label>
-               <b-input style="width: 100px;"/>
-               <summaryselectbox :selected="form_currency" style="width: 80px"/>
+               <b-input style="width: 100px; margin-right: 15px"/>
+               <summaryselectbox :selected="form_currency" style="width: 80px; margin: 0;"/>
             </div>
          </div>
       </div>
@@ -36,7 +48,7 @@
       <div class="group">
          <div class="left"><label>Фотография</label></div>
          <div class="right">
-            <input type="file" @change="imageSelected" id="cusomFile"/>
+            <input type="file" class="input_style" @change="imageSelected" id="cusomFile"/>
          </div>
       </div>
       <div class="group">
@@ -45,7 +57,9 @@
             <img :src="imagePreview">
          </div>
       </div>
-      <b-button type="submit" variant="primary">Сохранить</b-button>
+      <div class="btn_group">
+         <b-button type="submit" variant="primary">Сохранить</b-button>
+      </div>
    </form>
 </template>
 
@@ -61,6 +75,8 @@ export default {
   },
   data() {
      return {
+        add_form: false,
+
         full_name: [
            {name: 'Фамилия', item: 1},
            {name: 'Имя', item: 2},
@@ -68,10 +84,15 @@ export default {
         ],
         city_name: [{name: '', item: 1}],
         email_name: [{name: 'Email', item: 1}],
-        number_name: [{name: '8 (---) --- -- --', item: 1}],
+        number_name: [{name: '8 (---)--- -- --', item: 1}],
         profession_name: [{name: 'Профессия', item: 1}],
         key_skill_name: [{name: 'Введите название навыка', item: 1}],
         about_me_name: [{name: 'Введите дополнительную информацию о себе', item: 1}],
+
+        educational_ins_name: [{name: 'Учебное заведение', item: 1}],
+        faculty_name: [{name: 'Факультет', item: 1}],
+        specializ_name: [{name: 'Специализация', item: 1}],
+        year_ending_name: [{name: 'Год окончания', item: 1}],
 
         image: null,
         imagePreview: null,
@@ -102,6 +123,9 @@ export default {
         reader.onload = e => {
            this.imagePreview = e.target.result
         }
+     },
+     formChange: function(event) {
+        this.add_form = event
      }
   }
 }
@@ -111,10 +135,10 @@ export default {
    @import "../assets/scss/function.scss";
 
    form {
+      margin: 0 30vw;
 
       .group {
          display: flex;
-         justify-content: center;
          flex-direction: row;
          margin-bottom: vw(30);
 
@@ -128,10 +152,15 @@ export default {
             display: flex;
             justify-content: left;
 
-            .form-salary {
+            .form-row {
+               width: 100%;
                display: flex;
-               justify-content: left;
                flex-direction: row;
+            }
+
+            .input_style {
+               width: 100%;
+               margin: 0px;
             }
          }
       }
@@ -139,7 +168,7 @@ export default {
 
    label, input {
       height: 40px;
-      margin-right: vw(15);
+      margin: 0 15px 20px 0;
    }
 
    img {
@@ -148,8 +177,56 @@ export default {
    }
 
    button {
-      margin: 0 0 vw(60) vw(600);
-      height: vw(40);
-      width: vw(150);
+      height: 40px;
+      width: 150px;
+   }
+
+   .right_posintion {
+      width: vw(450);
+      display: flex;
+      justify-content: right;
+   }
+
+   .btn_group {
+      display: flex;
+      justify-content: center;
+      margin-bottom: vw(40);
+   }
+
+   @media (max-width: 1540px) {
+      form {
+         margin: 0 30px;
+         display: flex;
+         justify-content: left;
+         flex-direction: column;
+
+         .group {
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            margin-bottom: 15px;
+
+            .left {
+               width: 235px;
+               text-align: left;
+            }
+
+            .right {
+               width: 360px;
+               display: flex;
+               justify-content: center;
+            }
+         }
+
+         img {
+            height: 200px;
+            border-radius: 5px;
+         }
+
+         label, input {
+            height: 40px;
+            margin-right: 15px;
+         }
+      }
    }
 </style>

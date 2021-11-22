@@ -6,7 +6,11 @@
             <b-textarea v-for="option in namePlaceHolder" v-bind:key="option.item" :placeholder="option.name" style="height: 10vw; margin-bottom: 1vw;"/>
          </div>
          <div v-else>
-            <b-input  else v-for="option in namePlaceHolder" v-bind:key="option.item" :placeholder="option.name" style="margin-bottom: 1vw;"/>
+            <b-input else v-model="input_value"
+            @blur="changeFocus($event)"
+            id="input_form"
+            v-for="option in namePlaceHolder" v-bind:key="option.item" :placeholder="option.name" 
+            style="margin-bottom: 1vw;"/>
          </div>
       </div>
    </div>
@@ -22,7 +26,7 @@ export default {
          default: ''
       },
       namePlaceHolder: {
-         type: Object,
+         type: Array,
          default() {
             return []
          }
@@ -30,6 +34,39 @@ export default {
       textarea: {
          type: Boolean,
          default: false
+      }
+   },
+   data() {
+      return {
+         input_value: ''
+      }
+   },
+   methods: {
+      changeFocus: function(event) {
+         if(this.namePlace === "Email") {
+            if(!this.validEmail(this.input_value)){
+               event.target.className += " error_form"
+            }
+            else {
+               event.target.className = "form-control"
+            }
+         }
+         else if(this.namePlace === "Номер телефона") {
+            if(!this.validNumberPhone(this.input_value)){
+               event.target.className += " error_form"
+            }
+            else {
+               event.target.className = "form-control"
+            }
+         }
+      },
+      validEmail: function (email) {
+         let re = /^([A-Za-z0-9._%+-]+@[A-Za-z0-9-]+.+.[A-Za-z]{2,4})?$/
+         return re.test(email)
+      },
+      validNumberPhone: function(phone) {
+         let re = /^((\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2})?$/
+         return re.test(phone)
       }
    }
 }
@@ -52,6 +89,28 @@ export default {
 
       .right_form {
          width: vw(450);
+      }
+   }
+
+   .error_form {
+      border: 2px solid red;
+   }
+
+   @media (max-width: 1540px) {
+      .form {
+         display: flex;
+         justify-content: center;
+         flex-direction: row;
+         margin-bottom: 10px;
+
+         .left_form {
+            width: 235px;
+            text-align: left;
+         }
+
+         .right_form {
+            width: 360px;
+         }
       }
    }
 </style>

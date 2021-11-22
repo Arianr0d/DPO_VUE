@@ -1,18 +1,22 @@
 import Vue from 'vue'
 import BootstrapVue from "bootstrap-vue"
 import VueRouter from 'vue-router'
-import SummaryUser from '../views/SummaryUser.vue'
 import "bootstrap/dist/css/bootstrap.min.css"
 import 'bootstrap-vue/dist/bootstrap-vue.css'
-
+ 
 Vue.use(VueRouter)
 Vue.use(BootstrapVue)
 
 const routes = [
   {
-    path: '/',
-    name: 'SummaryUser',
-    component: SummaryUser
+      path: '/',
+      name: 'SummaryUser',
+      component: () => import(/* webpackChunkName: "about" */ '../views/SummaryUser.vue')
+  },
+  {
+      path: '/unitconversion',
+      name: 'UnitConversion',
+      component: () => import(/* webpackChunkName: "about" */ '../views/UnitConversion.vue')
   }
 ]
 
