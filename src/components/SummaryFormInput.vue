@@ -6,7 +6,7 @@
             <b-textarea v-for="option in namePlaceHolder" v-bind:key="option.item" :placeholder="option.name" style="height: 10vw; margin-bottom: 1vw;"/>
          </div>
          <div v-else>
-            <b-input else v-model="input_value"
+            <b-input else v-model="input_value[option.item]"
             @blur="changeFocus($event)"
             id="input_form"
             v-for="option in namePlaceHolder" v-bind:key="option.item" :placeholder="option.name" 
@@ -38,25 +38,29 @@ export default {
    },
    data() {
       return {
-         input_value: ''
+         input_value: ['']
       }
    },
    methods: {
       changeFocus: function(event) {
          if(this.namePlace === "Email") {
-            if(!this.validEmail(this.input_value)){
-               event.target.className += " error_form"
-            }
-            else {
-               event.target.className = "form-control"
+            for(let i=0; i<this.input_value.length; i++) {
+               if(!this.validEmail(this.input_value[i])){
+                  event.target.className += "   error_form"
+               }
+               else {
+                  event.target.className =   "form-control"
+               }
             }
          }
          else if(this.namePlace === "Номер телефона") {
-            if(!this.validNumberPhone(this.input_value)){
-               event.target.className += " error_form"
-            }
-            else {
-               event.target.className = "form-control"
+            for(let i=0; i<this.input_value.length; i++) {
+               if(!this.validNumberPhone(this.input_value[i])){
+                  event.target.className += " error_form"
+               }
+               else {
+                  event.target.className = "form-control"
+               }
             }
          }
       },
