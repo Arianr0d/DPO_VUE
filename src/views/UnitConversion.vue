@@ -83,11 +83,11 @@ export default {
          button {
             width: 150px;
             height: 40px;
-            margin: 40px 0 0 0;
+            margin: 25px 0 0 0;
          }
 
          img {
-            height: vw(100);
+            height: 100px;
             margin: 0px 20px;
          }
       }
@@ -114,5 +114,12 @@ export default {
    select::after {
       border-radius: 5px;
       border: 1px solid #CFD0D1;
+   }
+
+   @media (max-width: 930px) {
+      .width_el {
+         width: 170px;
+         height: 50px;
+      }
    }
 </style>
