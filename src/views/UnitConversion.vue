@@ -94,7 +94,7 @@ export default {
    }
 
    .width_el {
-      width: 350px;
+      width: vw(350);
       height: 50px;
    }
 
@@ -106,7 +106,7 @@ export default {
       cursor: pointer;
 
       margin-bottom: vw(20);
-      padding-left: 8px;
+      padding-left: vw(8);
    }
 
    select:hover,
