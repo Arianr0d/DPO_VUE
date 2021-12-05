@@ -1,5 +1,15 @@
 <template>
    <form action="#" id="form_id">
+      <div class="group">
+         <div class="left">Статус</div>
+         <div class="right">
+            <summaryselectbox style="width: 450px" v-on:add_place="formChange($event)" :selected="form_status" :nameselected="'Статус'" 
+            :select_default="0"/>
+            /*
+               ! По умолчанию выбран статус "Новый"
+            */
+         </div>
+      </div>
       <summaryforminput :namePlace="'ФИО'" :namePlaceHolder="full_name"/>
       <div class="group">
          <div class="left">Дата рождения</div>
@@ -40,7 +50,12 @@
                <b-input style="width: 100px; margin-right: 15px"/>
                <label>до</label>
                <b-input style="width: 100px; margin-right: 15px"/>
-               <summaryselectbox :selected="form_currency" style="width: 80px; margin: 0;"/>
+               <summaryselectbox :selected="form_currency"  
+               :select_default="0"
+               style="width: 80px; margin: 0;"/>
+               /*
+                  ! По умолчанию выбрано значение "руб"
+               */
             </div>
          </div>
       </div>
@@ -77,6 +92,12 @@ export default {
      return {
         add_form: false,
 
+        form_status: [
+           {name: 'Новый', item: 1},
+           {name: 'Назначено собеседование', item: 2},
+           {name: 'Принят', item: 3},
+           {name: 'Отказ', item: 4}
+        ],
         full_name: [
            {name: 'Фамилия', item: 1},
            {name: 'Имя', item: 2},
