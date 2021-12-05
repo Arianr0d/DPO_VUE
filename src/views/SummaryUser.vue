@@ -5,9 +5,9 @@
          <div class="right">
             <summaryselectbox style="width: 450px" v-on:add_place="formChange($event)" :selected="form_status" :nameselected="'Статус'" 
             :select_default="0"/>
-            /*
+            <!--
                ! По умолчанию выбран статус "Новый"
-            */
+            -->
          </div>
       </div>
       <summaryforminput :namePlace="'ФИО'" :namePlaceHolder="full_name"/>
@@ -53,9 +53,9 @@
                <summaryselectbox :selected="form_currency"  
                :select_default="0"
                style="width: 80px; margin: 0;"/>
-               /*
+               <!--
                   ! По умолчанию выбрано значение "руб"
-               */
+               -->
             </div>
          </div>
       </div>
