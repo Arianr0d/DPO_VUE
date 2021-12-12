@@ -6,7 +6,7 @@
          <summaryforminput :namePlace="'Факультет'" :namePlaceHolder="faculty_name"/>
          <summaryforminput :namePlace="'Специализация'" :namePlaceHolder="specializ_name"/>
          <summaryforminput :namePlace="'Год окончания'" :namePlaceHolder="year_ending_name"/>
-         <b-button v-if=" item != items[items.length-1] && item != 1" @click="delBlock(item)" variant="danger">Удалить</b-button>
+         <b-button v-if=" item != items[items.length-1] && item != items[0]" @click="delBlock(item)" variant="danger">Удалить</b-button>
       </div>
    </div>
 </template>
@@ -32,7 +32,7 @@ export default {
    },
    methods: {
       delBlock: function(item) {
-         this.items.splice(item - 1, 1)
+         this.items.splice(this.items.indexOf(item), 1)
          this.$emit("items", this.items)
       }
    }

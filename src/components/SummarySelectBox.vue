@@ -24,6 +24,12 @@ export default {
       select_default: {
          type: Number,
          default: null
+      },
+      selectOption: {
+         type: Object,
+         default() {
+            return {}
+         }
       }
    },
    data() {
