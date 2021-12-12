@@ -22,7 +22,13 @@
          </div>
       </div>
 
-      <inputsearchapi :namePlace="'Город'" :selectOption="selectCityAPI"/>
+      <div class="group">
+         <div class="left"><label>Город</label></div>
+         <div class="right">
+            <selectboxsearchapi :selected="city_name" :selectOption="selectCityAPI" style="width: 450px"/>
+         </div>
+      </div>
+
       <summaryforminput :namePlace="'Email'" :namePlaceHolder="email_name"/>
       <summaryforminput :namePlace="'Номер телефона'" :namePlaceHolder="number_name"/>
       <div class="group">
@@ -83,7 +89,7 @@
 import SummaryFormInput from '../components/SummaryFormInput.vue';
 import SummarySelectBox from '../components/SummarySelectBox.vue';
 import AddEducation from '../components/AddEducation.vue'
-import InputSearchAPI from '../components/InputSearchAPI.vue'
+import SelectBoxSearchAPI from '../components/SelectBoxSearchAPI.vue'
 
 export default {
   name: 'SummaryUser',
@@ -91,7 +97,7 @@ export default {
      'summaryforminput': SummaryFormInput,
      'summaryselectbox': SummarySelectBox,
      'addeducation': AddEducation,
-     'inputsearchapi': InputSearchAPI
+     'selectboxsearchapi': SelectBoxSearchAPI
   },
   data() {
      return {
@@ -109,6 +115,7 @@ export default {
            {name: 'Имя', item: 2},
            {name: 'Отчество', item: 3}
         ],
+        city_name: [{}],
         email_name: [{name: 'Email', item: 1}],
         number_name: [{name: '8 (---)--- -- --', item: 1}],
         profession_name: [{name: 'Профессия', item: 1}],
@@ -135,9 +142,7 @@ export default {
         ],
 
         selectCityAPI: {method: 'database.getCities',
-        count: 8, country_id: 1, region_id: null, q: ''},
-
-        selectUnivAPI: {method: 'database.getUniversities', count: 8, city_id: null, country_id: 1, q: ''}
+        count: 8, country_id: 1, q: ''}
      }
   },
   methods: {
@@ -165,9 +170,6 @@ export default {
             this.count_block.pop()
         }
      }
-  },
-  mounted() {
-
   }
 }
 </script>
