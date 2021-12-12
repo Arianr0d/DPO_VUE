@@ -1,5 +1,7 @@
 <template>
    <form action="#" id="form_id">
+      <formapi></formapi>
+
       <div class="group">
          <div class="left">Статус</div>
          <div class="right">
@@ -32,11 +34,11 @@
       </div>
 
       <div v-if="add_form">
-         <br><br>
-         <summaryforminput :namePlace="'Учебное заведение'" :namePlaceHolder="educational_ins_name"/>
-         <summaryforminput :namePlace="'Факультет'" :namePlaceHolder="faculty_name"/>
-         <summaryforminput :namePlace="'Специализация'" :namePlaceHolder="specializ_name"/>
-         <summaryforminput :namePlace="'Год окончания'" :namePlaceHolder="year_ending_name"/>
+         <addeducation v-on:items="changeBlock($event)" :items="count_block"/>
+         <div class="btn_group">
+            <b-button @click="addBlock" variant="primary">Указать ещё одно место обучения</b-button>
+            <b-button v-if="count_block.length > 1" @click="deleteBlock" variant="danger">Удалить</b-button>
+         </div>
          <br><br>
       </div>
 
@@ -79,18 +81,32 @@
 </template>
 
 <script>
+import FormAPI from '../components/FormAPI.vue'
+
 import SummaryFormInput from '../components/SummaryFormInput.vue';
 import SummarySelectBox from '../components/SummarySelectBox.vue';
+import AddEducation from '../components/AddEducation.vue'
+
+import fetchJsonp from 'fetch-jsonp'
+//import instance from '../api/instance.js'
+import { axios } from '@/plugins/axios'
+//import { Api } from 'vk-api-glory'
+//import VKAuth from '@dyadikov/vue-vk-oauth2'
+
 
 export default {
   name: 'SummaryUser',
   components: {
+     'formapi': FormAPI,
+
+     'addeducation': AddEducation,
      'summaryforminput': SummaryFormInput,
      'summaryselectbox': SummarySelectBox
   },
   data() {
      return {
         add_form: false,
+        count_block: [1],
 
         form_status: [
            {name: 'Новый', item: 1},
@@ -109,11 +125,6 @@ export default {
         profession_name: [{name: 'Профессия', item: 1}],
         key_skill_name: [{name: 'Введите название навыка', item: 1}],
         about_me_name: [{name: 'Введите дополнительную информацию о себе', item: 1}],
-
-        educational_ins_name: [{name: 'Учебное заведение', item: 1}],
-        faculty_name: [{name: 'Факультет', item: 1}],
-        specializ_name: [{name: 'Специализация', item: 1}],
-        year_ending_name: [{name: 'Год окончания', item: 1}],
 
         image: null,
         imagePreview: null,
@@ -147,8 +158,119 @@ export default {
      },
      formChange: function(event) {
         this.add_form = event
+     },
+     changeBlock: function(event) {
+        console.log(event)
+        this.count_block = event
+     },
+     addBlock: function() {
+        this.count_block.push(this.count_block.length+1)
+     },
+     deleteBlock: function() {
+        if(this.count_block.length > 1) {
+            this.count_block.pop()
+        }
      }
-  }
+  },
+   async mounted() {
+
+      let res = await fetchJsonp('https://api.vk.com/method/database.getUniversities?count=5&city_id=2&access_token=149d393d14d2b75e93e7fd16780783fb722bafb5251cf0ab7df477eb5763ad7aad47de4aafc89b3781b1b&v=5.131')
+      .then(function(response) {
+         return response.json()
+      }).then(function(json) {
+         console.log('parsed json', json)
+         return json.response.items
+      }).catch(function(ex) {
+         console.log('parsing failed', ex)
+      })
+
+      console.log(res)
+
+
+      let val = `method${res}`
+      console.log(val)
+      /*const accessToken = "5bb7a0695bb7a0695be81336e25bcdfa8655bb75bb7a0693a01af2e34264873ac1ba015"
+      const VK_APP_ID = '8018671'
+
+      VKAuth.Api('database.getUniversities', {user_ids: VK_APP_ID, v: '5.131'})
+        .then(response => {
+          console.log(response)
+        })
+        .catch(error => {
+          console.error(error)
+         }
+      )*/
+
+    /*try {
+        let api = "https://api.vk.com/method/database.getUniversities?count=5&city_id=2&access_token=5bb7a0695bb7a0695be81336e25bcdfa8655bb75bb7a0693a01af2e34264873ac1ba015&v=5.131"
+
+        let options = {
+            headers: {
+                "Accept": "application/json",
+                'Content-Type': 'application/json'
+            },
+            method: "POST"
+        }
+        let res = await fetch(api, options)
+        return res.json()
+    }
+    catch (e) {
+        return {error: e}
+    }*/
+
+
+     /*this.$axios({url: 'https://api.vk.com/method/database.getUniversities?count=5&access_token=6d3548f4f2b081519ba360147fd16599b3724ddb681191cbfd62b21319390434947263089cc7f51e4ee0d&v=5.52', headers: {"Accept": "application/json"}, methods: "GET"} 
+     ).then(res => {
+        console.log(res);
+      }).catch(err => {
+        console.log(err.response);
+      });*/
+
+
+     /*let res = axios.get('https://api.vk.com/method/database.getUniversities?count=5&access_token=6d3548f4f2b081519ba360147fd16599b3724ddb681191cbfd62b21319390434947263089cc7f51e4ee0d&v=5.81').then(response => (this.info = response))
+
+     console.log(res)*/
+     /*let token = '6d3548f4f2b081519ba360147fd16599b3724ddb681191cbfd62b21319390434947263089cc7f51e4ee0d'
+
+      $.ajax({
+         url: 'https://api.vk.com/method/friends.getSuggestions?f...'+$filter+'&fields='+$fields+'&count=500&access_token='+$token+'&v=5.103',
+         type: 'GET',
+         dataType: 'jsonp',
+         crossDomain: true,
+         success: function(data){
+            console.log(data.response);
+         }
+      })*/
+
+      /*$.ajax({
+         url: "https://api.vk.com/method/database.getUniversities?count=5&city_id=2&access_token=5abe2aabc3cd17056ce8b6e752041fc14b707384c5d7db0df90f8685c6468aa7c1023179f7fc5ff03927b&v=5.131",
+         type: 'GET',
+         dataType: 'jsonp',
+         crossDomain: true
+      }).then(function(response) {
+         console.log("Success", response.data)
+      }, function(response) {
+         console.log("Error", response.statusText)
+      })*/
+
+      /*let res = ajax({
+         url: 'https://api.vk.com/method/database.getUniversities?count=5&city_id=2&access_token=5abe2aabc3cd17056ce8b6e752041fc14b707384c5d7db0df90f8685c6468aa7c1023179f7fc5ff03927b&v=5.131',
+         method: 'GET',
+         dataType: 'JSON',
+         success: function(data) {
+            console.log(data)
+         }
+      })
+      console.log(res)*/
+
+      /*fetch('https://api.vk.com/method/getUniversities?count=5&access_token=daf08b5f012ca770b06b1485eecc2762606720d1120b346c190bab08e173755150918303862f23b1f3069&q=ЛГ&v=5.52')
+      .then(response => {
+         this.displayedBooks = response.data
+      }, error =>{
+         console.log(error)
+      })
+  }*/
+   }
 }
 </script>
 
@@ -199,7 +321,8 @@ export default {
 
    button {
       height: 40px;
-      width: 150px;
+      padding: 0 20px;
+      margin: 0 20px;
    }
 
    .right_posintion {

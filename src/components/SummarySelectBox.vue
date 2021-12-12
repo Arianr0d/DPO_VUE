@@ -34,21 +34,23 @@ export default {
    },
    created() {
       if(this.select_default !== null) {
-         this.select_value = this.selected[this.      select_default].name
+         this.select_value = this.selected[this.select_default].name
       }
    },
    methods: {
       onChange: function(event) {
-         if(this.nameselected == 'Образование' && event.target.options.selectedIndex !== 6) {
-            /*
-               ! проверка на соответствие поля значению из selectbox "Среднее" с индексом 6
-            */
-            this.add_place = true
-            this.$emit("add_place", this.add_place)
-         }
-         else {
-            this.add_place = false
-            this.$emit("add_place", this.add_place)
+         if(this.nameselected == 'Образование') {
+            if(event.target.options.selectedIndex !== 6) {
+               /*
+                  ! проверка на соответствие поля значению из selectbox "Среднее" с индексом 6
+               */
+               this.add_place = true
+               this.$emit("add_place", this.add_place)
+            }
+            else {
+               this.add_place = false
+               this.$emit("add_place", this.add_place)
+            }
          }
       }
    }
