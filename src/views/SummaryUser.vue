@@ -25,7 +25,7 @@
       <div class="group">
          <div class="left"><label>Город</label></div>
          <div class="right">
-            <selectboxsearchapi :selected="city_name" :selectOption="selectCityAPI" style="width: 450px"/>
+            <selectboxsearchapi :selected="city_name" :placeholderName="'Город'" :selectOption="selectCityAPI" style="width: 450px"/>
          </div>
       </div>
 

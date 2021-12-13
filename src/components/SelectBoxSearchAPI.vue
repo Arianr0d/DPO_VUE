@@ -1,8 +1,14 @@
 <template>
    <div class="form">
-      <b-input v-model="input_value" @input="searchText()" type="search">
-         <option v-for="option in select" v-bind:key="option.id" selected>{{ option.title }}</option>
+      <b-input v-model="input_value" list="select" @input="searchText()" type="search" :placeholder="placeholderName" autocomplete="off">
       </b-input>
+      <datalist id="select">
+         <div v-for="item in select" v-bind:key="item.id">
+            <option v-if="item.region == undefined" :value="item.title"/>
+            <option v-else-if="item.region != undefined && select.length > 0" :value="item.title + ', ' + item.region"/>
+            <option else value=""/>
+         </div>
+      </datalist>
    </div>
 </template>
 
@@ -23,6 +29,10 @@ export default {
          default() {
             return {}
          }
+      },
+      placeholderName: {
+         type: String,
+         default: ''
       }
    },
    data() {
@@ -32,9 +42,9 @@ export default {
       }
    },
    methods: {
-      searchText: function() {
+      searchText: async function() {
          this.selectOption.q = this.input_value
-         this.select = selectAPI(this.selectOption)
+         this.select = await selectAPI(this.selectOption) 
          console.log(this.select)
       }
    }
