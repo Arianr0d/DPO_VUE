@@ -2,11 +2,20 @@
    <div class="form">
       <b-input v-model="input_value" list="select" @input="searchText()" type="search" :placeholder="placeholderName" autocomplete="off">
       </b-input>
+
       <datalist id="select">
-         <div v-for="item in select" v-bind:key="item.id">
-            <option v-if="item.region == undefined" :value="item.title"/>
-            <option v-else-if="item.region != undefined && select.length > 0" :value="item.title + ', ' + item.region"/>
-            <option else value=""/>
+         <div v-if="selectOption.method == 'database.getCities'">
+            <div v-for="item in select" v-bind:key="item.id">
+               <option v-if="item.region == undefined" :value="item.title"/>
+               <option v-else-if="item.region != undefined && select.length > 0" :value="item.title + ', ' + item.region"/>
+               <option else value=""/>
+            </div>
+         </div>
+         <div v-if="selectOption.method == 'database.getUniversities'">
+            <div v-for="item1 in select" v-bind:key="item1.id">
+               <option v-if="select.length > 0" :value="item1.title"/>
+               <option else value=""/>
+            </div>
          </div>
       </datalist>
    </div>
@@ -47,6 +56,9 @@ export default {
          this.select = await selectAPI(this.selectOption) 
          console.log(this.select)
       }
+   },
+   created() {
+      this.select = [{}]
    }
 }
 </script>

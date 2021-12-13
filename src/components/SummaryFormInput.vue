@@ -9,7 +9,7 @@
             <b-input else v-model="input_value[option.item]"
             @blur="changeFocus($event)"
             id="input_form"
-            v-for="option in namePlaceHolder" v-bind:key="option.item" :placeholder="option.name" 
+            v-for="option in namePlaceHolder" v-bind:key="option.item" :placeholder="option.name" autocomplete="off" 
             style="margin-bottom: 1vw;"/>
          </div>
       </div>
@@ -46,10 +46,10 @@ export default {
          if(this.namePlace === "Email") {
             for(let i=0; i<this.input_value.length; i++) {
                if(!this.validEmail(this.input_value[i])){
-                  event.target.className += "   error_form"
+                  event.target.className += " error_form"
                }
                else {
-                  event.target.className =   "form-control"
+                  event.target.className = " form-control"
                }
             }
          }

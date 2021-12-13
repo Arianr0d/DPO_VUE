@@ -16,7 +16,6 @@ export default async function selectAPI(option) {
          console.log('parsing failed', ex)
       })
 
-      //console.log(res)
       return res
    }
    else if (option.method == 'database.getCities') {
@@ -30,7 +29,6 @@ export default async function selectAPI(option) {
          console.log('parsing failed', ex)
       })
 
-      //console.log(res)
       return res
    }
 }
