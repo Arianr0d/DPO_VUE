@@ -5,7 +5,8 @@
          <div class="group">
             <div class="left"><label>Учебное заведение</label></div>
             <div class="right">
-               <selectboxsearchapi :selected="univer_name" :placeholderName="'Учебное заведение'" :selectOption="selectUnivAPI" style="width: 450px"/>
+               <selectboxsearchapi :selected="univer_name" :placeholderName="'Учебное заведение'" :selectOption="selectOptions"
+               :id_sel="'id_sel1'" :id_inp="`${item}`" style="width: 450px"/>
             </div>
          </div>
          <summaryforminput :namePlace="'Факультет'" :namePlaceHolder="faculty_name"/>
@@ -27,7 +28,13 @@ export default {
       'selectboxsearchapi': SelectBoxSearchAPI
    },
    props: {
-      items: { type: Array }
+      items: { type: Array },
+      selectOptions: {
+         type: Object,
+         default() {
+            return {}
+         }
+      },
    },
    data() {
       return {
@@ -35,8 +42,7 @@ export default {
          specializ_name: [{name: 'Специализация', item: 1}],
          year_ending_name: [{name: 'Год окончания', item: 1}],
 
-         univer_name: [{}],
-         selectUnivAPI: {method: 'database.getUniversities', count: 8, city_id: 2, country_id: 1, q: ''}
+         univer_name: [{}]
       }
    },
    methods: {

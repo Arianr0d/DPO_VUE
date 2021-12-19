@@ -25,7 +25,7 @@
       <div class="group">
          <div class="left"><label>Город</label></div>
          <div class="right">
-            <selectboxsearchapi :selected="city_name" :placeholderName="'Город'" :selectOption="selectCityAPI" style="width: 450px"/>
+            <selectboxsearchapi v-on:id_c="valueCity($event)" :selected="city_name" :placeholderName="'Город'" :id_sel="'id_sel2'" :id_inp="'inp_city'" :selectOption="selectCityAPI" style="width: 450px"/>
          </div>
       </div>
 
@@ -39,7 +39,7 @@
       </div>
 
       <div v-if="add_form">
-         <addeducation v-on:items="changeBlock($event)" :items="count_block"/>
+         <addeducation v-on:items="changeBlock($event)"  :items="count_block" :selectOptions="selectUnivAPI"/>
          <div class="btn_group">
             <b-button @click="addBlock" variant="primary">Указать ещё одно место обучения</b-button>
             <b-button v-if="count_block.length > 1" @click="deleteBlock" variant="danger">Удалить</b-button>
@@ -142,7 +142,8 @@ export default {
         ],
 
         selectCityAPI: {method: 'database.getCities',
-        count: 8, country_id: 1, q: ''}
+        count: 8, country_id: 1, q: ''},
+        selectUnivAPI: {method: 'database.getUniversities', count: 8, city_id: 0, country_id: 1, q: ''}
      }
   },
   methods: {
@@ -159,7 +160,6 @@ export default {
         this.add_form = event
      },
      changeBlock: function(event) {
-        console.log(event)
         this.count_block = event
      },
      addBlock: function() {
@@ -169,6 +169,9 @@ export default {
         if(this.count_block.length > 1) {
             this.count_block.pop()
         }
+     },
+     valueCity: function(event) {
+        this.selectUnivAPI.city_id = event
      }
   }
 }
