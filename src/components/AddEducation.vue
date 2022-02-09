@@ -5,13 +5,13 @@
          <div class="group">
             <div class="left"><label>Учебное заведение</label></div>
             <div class="right">
-               <selectboxsearchapi :selected="univer_name" :placeholderName="'Учебное заведение'" :selectOption="selectOptions"
+               <selectboxsearchapi @get_value="functionOn($event, 'name_university')" :selected="univer_name" :placeholderName="'Учебное заведение'" :selectOption="selectOptions"
                :id_sel="'id_sel1'" :id_inp="`${item}`" style="width: 450px"/>
             </div>
          </div>
-         <summaryforminput :namePlace="'Факультет'" :namePlaceHolder="faculty_name"/>
-         <summaryforminput :namePlace="'Специализация'" :namePlaceHolder="specializ_name"/>
-         <summaryforminput :namePlace="'Год окончания'" :namePlaceHolder="year_ending_name"/>
+         <summaryforminput @get_value="functionOn($event, 'name_faculty')" :namePlace="'Факультет'" :namePlaceHolder="faculty_name"/>
+         <summaryforminput @get_value="functionOn($event, 'name_specialization')" :namePlace="'Специализация'" :namePlaceHolder="specializ_name"/>
+         <summaryforminput @get_value="functionOn($event, 'date_ending')" :namePlace="'Год окончания'" :namePlaceHolder="year_ending_name"/>
          <b-button v-if=" item != items[items.length-1] && item != items[0]" @click="delBlock(item)" variant="danger">Удалить</b-button>
       </div>
    </div>
@@ -42,13 +42,20 @@ export default {
          specializ_name: [{name: 'Специализация', item: 1}],
          year_ending_name: [{name: 'Год окончания', item: 1}],
 
-         univer_name: [{}]
+         univer_name: [{}],
+         sub_formData: {}
       }
    },
    methods: {
       delBlock: function(item) {
          this.items.splice(this.items.indexOf(item), 1)
          this.$emit("items", this.items)
+      },
+      functionOn: function(value, name_place) {
+         this.sub_formData.value = value
+         this.sub_formData.name = name_place
+         console.log(this.sub_formData)
+         this.$emit("get_value", this.sub_formData)
       }
    }
 }

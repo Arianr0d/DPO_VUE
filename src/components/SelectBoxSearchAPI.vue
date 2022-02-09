@@ -79,6 +79,11 @@ export default {
             document.getElementById(id).placeholder = this.placeholderName
          }
       }
+   }, 
+   watch: {
+      input_value(new_value) {
+         this.$emit("get_value", new_value)
+      }
    }
 }
 </script>

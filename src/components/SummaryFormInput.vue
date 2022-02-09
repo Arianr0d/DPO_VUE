@@ -3,14 +3,14 @@
       <div class="left_form"><p>{{ namePlace }}</p></div>
       <div class="right_form">
          <div v-if="textarea === true">
-            <b-textarea v-for="option in namePlaceHolder" v-bind:key="option.item" :placeholder="option.name" style="height: 10vw; margin-bottom: 1vw;"/>
+            <b-textarea v-model="text_area_input" v-for="option in namePlaceHolder" v-bind:key="option.item - 1" :placeholder="option.name" style="height: 10vw; margin-bottom: 1vw;"/>
          </div>
          <div v-else>
-            <b-input else v-model="input_value[option.item]"
+            <b-input else v-model="input_value[option.item - 1]"
             @blur="changeFocus($event)"
             id="input_form"
-            v-for="option in namePlaceHolder" v-bind:key="option.item" :placeholder="option.name" autocomplete="off" 
-            style="margin-bottom: 1vw;"/>
+            v-for="option in namePlaceHolder" v-bind:key="option.item - 1" :placeholder="option.name" autocomplete="off" 
+            style="margin-bottom: 1vw;" required/>
          </div>
       </div>
    </div>
@@ -38,7 +38,8 @@ export default {
    },
    data() {
       return {
-         input_value: ['']
+         input_value: [],
+         text_area_input: ''
       }
    },
    methods: {
@@ -71,6 +72,17 @@ export default {
       validNumberPhone: function(phone) {
          let re = /^((\+7|7|8)?[\s\-]?\(?[489][0-9]{2}\)?[\s\-]?[0-9]{3}[\s\-]?[0-9]{2}[\s\-]?[0-9]{2})?$/
          return re.test(phone)
+      }
+   },
+   watch: {
+      text_area_input(new_value) {
+         this.$emit("get_value", new_value)
+      },
+      input_value: {
+         handler(val, oldVal) {
+            this.$emit("get_value", val)
+         },
+         deep: true
       }
    }
 }

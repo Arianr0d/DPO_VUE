@@ -1,6 +1,6 @@
 .DS_Store
 node_modules
-
+/src/api/token.json
 
 # local env files
 .env.local

@@ -59,6 +59,11 @@ export default {
             }
          }
       }
+   },
+   watch: {
+      select_value(new_value) {
+         this.$emit("get_value", new_value)
+      }
    }
 }
 </script>
